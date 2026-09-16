@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rahul Hecker King — Cyber Demo</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#020602;color:#00ff66;font-family:Consolas,monospace;overflow:hidden}
+  .scan{position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(0,255,100,.025) 50%,transparent 50%);background-size:100% 4px;opacity:.6}
+  header{height:64px;border-bottom:1px solid #00ff66;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 0 20px #00ff6630}
+  .brand{font-size:24px;font-weight:900;text-shadow:0 0 12px #00ff66}
+  .status{border:1px solid #00ff66;padding:7px 12px;border-radius:5px}
+  main{height:calc(100vh - 64px);padding:16px;display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:14px}
+  .panel{border:1px solid #00ff66;background:#031003d9;box-shadow:0 0 18px #00ff6620;padding:13px;min-height:0}
+  .title{font-weight:bold;border-bottom:1px solid #00ff6644;padding-bottom:8px;margin-bottom:10px}
+  #terminal{overflow:auto;height:calc(100% - 34px);font-size:14px;line-height:1.5}
+  .cmd{color:#b8ffd0}
+  .ok{color:#00ff66}.warn{color:#ffff66}
+  .bar{height:9px;border:1px solid #00ff66;margin:7px 0 12px}.fill{height:100%;width:0;background:#00ff66;box-shadow:0 0 10px #00ff66}
+  .big{grid-column:2/4;display:flex;align-items:center;justify-content:center;text-align:center}
+  .access{font-size:clamp(28px,5vw,68px);font-weight:900;text-shadow:0 0 20px #00ff66;letter-spacing:3px}
+  .sub{margin-top:12px;font-size:14px}
+  .metric{display:flex;justify-content:space-between;margin:9px 0}
+  .metric span:last-child{font-weight:bold}
+  button{background:#031003;color:#00ff66;border:1px solid #00ff66;padding:9px 13px;font-family:inherit;cursor:pointer}
+  button:hover{background:#00ff66;color:#001a08}
+  @media(max-width:850px){body{overflow:auto}main{height:auto;grid-template-columns:1fr;grid-template-rows:auto}.big{grid-column:auto;min-height:220px}}
+</style>
+</head>
+<body>
+<div class="scan"></div>
+<header>
+  <div class="brand">♛ RAHUL HECKER KING</div>
+  <div class="status">● DEMO ONLINE</div>
+</header>
+
+<main>
+  <section class="panel">
+    <div class="title">TERMINAL // SIMULATION</div>
+    <div id="terminal"></div>
+  </section>
+
+  <section class="panel">
+    <div class="title">SYSTEM STATUS</div>
+    <div class="metric"><span>CPU</span><span id="cpu">12%</span></div>
+    <div class="bar"><div class="fill" id="cpuBar"></div></div>
+    <div class="metric"><span>RAM</span><span id="ram">38%</span></div>
+    <div class="bar"><div class="fill" id="ramBar"></div></div>
+    <div class="metric"><span>NETWORK</span><span class="ok">SECURE</span></div>
+    <div class="metric"><span>FIREWALL</span><span class="ok">ACTIVE</span></div>
+  </section>
+
+  <section class="panel">
+    <div class="title">ACCESS LOG</div>
+    <div class="metric"><span>Location</span><span>INDIA</span></div>
+    <div class="metric"><span>Session</span><span id="session">#RH-0001</span></div>
+    <div class="metric"><span>Encryption</span><span>AES-256</span></div>
+    <button onclick="runDemo()">RUN DEMO</button>
+  </section>
+
+  <section class="panel big">
+    <div>
+      <div class="access" id="access">ACCESS GRANTED</div>
+      <div class="sub">⚠ VISUAL EFFECT ONLY — NO REAL SYSTEM IS BEING ACCESSED</div>
+    </div>
+  </section>
+</main>
+
+<script>
+const terminal=document.getElementById('terminal');
+const lines=[
+"> initializing Rahul Hecker King interface...",
+"> loading cyber modules...",
+"> establishing simulated connection...",
+"> scanning virtual nodes...",
+"> checking firewall status...",
+"> encrypting demo session...",
+"> access granted [SIMULATION]",
+"> welcome to the cyber demo."
+];
+let i=0;
+function typeLine(){
+  if(i>=lines.length)return;
+  const d=document.createElement('div');
+  d.className=lines[i].includes('granted')?'ok':'cmd';
+  terminal.appendChild(d);
+  let text=lines[i++], j=0;
+  const t=setInterval(()=>{d.textContent+=text[j++]||''; if(j>text.length){clearInterval(t);terminal.scrollTop=terminal.scrollHeight;setTimeout(typeLine,250)}},18);
+}
+function setBar(id,val){document.getElementById(id).style.width=val+'%'}
+function runDemo(){
+  terminal.innerHTML='';
+  i=0; typeLine();
+  let cpu=Math.floor(20+Math.random()*65),ram=Math.floor(25+Math.random()*55);
+  document.getElementById('cpu').textContent=cpu+'%';
+  document.getElementById('ram').textContent=ram+'%';
+  setBar('cpuBar',cpu);setBar('ramBar',ram);
+  document.getElementById('session').textContent='#RH-'+Math.floor(1000+Math.random()*9000);
+}
+typeLine();
+setInterval(()=>{let c=Math.floor(10+Math.random()*80),r=Math.floor(20+Math.random()*65);document.getElementById('cpu').textContent=c+'%';document.getElementById('ram').textContent=r+'%';setBar('cpuBar',c);setBar('ramBar',r)},2500);
+setBar('cpuBar',12);setBar('ramBar',38);
+</script>
+</body>
+</html>
